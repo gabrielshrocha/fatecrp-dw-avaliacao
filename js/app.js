@@ -1,0 +1,143 @@
+// [R1] Cadastro dos jogos e objeto catalogo
+
+const jogos = [
+    {
+        id: 1,
+        nome: "Monopoly",
+        categoria: "Negociação",
+        descricao: "Um jogo de compra e venda de propriedades, onde o objetivo é construir impérios e levar os rivais à falência.",
+        nota: 7.7,
+        favorito: true
+    },
+    {
+        id: 2,
+        nome: "War",
+        categoria: "Estratégia",
+        descricao: "War (baseado no jogo americano Risk) é um jogo de guerra e estratégia disputado com um mapa do mundo dividido em 6 regiões. Cada jogador recebe uma carta com um determinado objetivo e quem completar primeiro o seu é o vencedor.",
+        nota: 8.3,
+        favorito: true
+    },
+    {
+        id: 3,
+        nome: "Catan",
+        categoria: "Estratégia",
+        descricao: "Catan é um jogo de estratégia e negociação, no qual os jogadores colonizam uma ilha fictícia e cumprem objetivos para adquirir pontos. O primeiro que chegar a 10 pontos vence.",
+        nota: 9.2,
+        favorito: true
+    },
+    {
+        id: 4,
+        nome: "Detetive",
+        categoria: "Investigação",
+        descricao: "Os jogadores tem como objetivo descobrir quem assassinou a vítima, em qual local e qual a arma do crime. Usando dados para mover seus peões, os jogadores entram em cômodos para falarem seus palpites e desvendarem o mistério.",
+        nota: 7.0,
+        favorito: false
+    },
+    {
+        id: 5,
+        nome: "Pandemic",
+        categoria: "Cooperativo",
+        descricao: "Os jogadores formam uma equipe de especialistas (médico, cientista, pesquisador) que precisa viajar pelo mundo contendo surtos de doenças e descobrindo as curas antes que a humanidade seja extinta.",
+        nota: 8.5,
+        favorito: false
+    },
+    {
+        id: 6,
+        nome: "Zombicide",
+        categoria: "Cooperativo",
+        descricao: "Um jogo cooperativo cheio de miniaturas onde o grupo controla sobreviventes em um apocalipse zumbi, precisando cumprir missões e encontrar armas sem serem encurralados pelas hordas de monstros.",
+        nota: 9.0,
+        favorito: false
+    },
+    {
+        id: 7,
+        nome: "Terraforming Mars",
+        categoria: "Estratégia",
+        descricao: "Os jogadores controlam corporações competindo e cooperando para tornar Marte habitável, gerenciando oxigênio, temperatura, oceanos e recursos.",
+        nota: 6.8,
+        favorito: false
+    },
+    {
+        id: 8,
+        nome: "Mysterium",
+        categoria: "Cooperativo",
+        descricao: "Um jogo cooperativo assimétrico onde um jogador faz o papel de um fantasma amnésico que tenta guiar um grupo de médiuns até o assassino, usando apenas cartas com ilustrações abstratas e enigmáticas.",
+        nota: 7.2,
+        favorito: false
+    }
+];
+
+const catalogo = {
+    nome: "Central Jogos de Tabuleiro",
+    itens: jogos,
+
+    adicionar: function(jogo) {
+        this.itens.push(jogo);
+    },
+
+    filtroCategoria: function(categoria) {
+        let lista = [];
+
+        for (let i = 0; i < this.itens.length; i++) {
+            if (this.itens[i].categoria === categoria) {
+                lista.push(this.itens[i]);
+            }
+        }
+
+        return lista;
+    },
+
+    filtroNome: function(texto) {
+        let lista = [];
+
+        for (let i = 0; i < this.itens.length; i++) {
+            let nome = this.itens[i].nome.toLowerCase();
+
+            if (nome.includes(texto.toLowerCase())) {
+                lista.push(this.itens[i]);
+            }
+        }
+
+        return lista;
+    },
+
+    filtroFavoritos: function() {
+        let favoritos = [];
+
+        for (let i = 0; i < this.itens.length; i++) {
+            if (this.itens[i].favorito) {
+                favoritos.push(this.itens[i]);
+            }
+        }
+
+        return favoritos;
+    },
+
+    favoritar: function(id) {
+        for (let i = 0; i < this.itens.length; i++) {
+            if (this.itens[i].id === id) {
+                this.itens[i].favorito = !this.itens[i].favorito;
+            }
+        }
+    },
+
+    filtroNota: function() {
+        let lista = [];
+
+        for (let i = 0; i < this.itens.length; i++) {
+            lista.push(this.itens[i]);
+        }
+
+        for (let i = 0; i < lista.length; i++) {
+            for (let j = 0; j < lista.length - 1; j++) {
+                if (lista[j].nota < lista[j + 1].nota) {
+                    let aux = lista[j];
+                    lista[j] = lista[j + 1];
+                    lista[j + 1] = aux;
+                }
+            }
+        }
+
+        return lista;
+    }
+};
