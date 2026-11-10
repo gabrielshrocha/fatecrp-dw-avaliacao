@@ -215,4 +215,44 @@ function renderizar(lista) {
     }
 }
 
+// [R3] Busca e filtro dos jogos
+
+const campoBusca = document.getElementById("busca-jogo");
+const seletorCategoria = document.getElementById("filtro-categoria");
+
+function filtrarJogos(texto, categoria) {
+    const busca = texto.toLowerCase();
+    const jogosFiltrados = [];
+
+    for (let i = 0; i < catalogo.itens.length; i++) {
+        const jogo = catalogo.itens[i];
+
+        const combinaNome = jogo.nome.toLowerCase().indexOf(busca) !== -1;
+        const combinaCategoria = categoria === "Todas" || jogo.categoria === categoria;
+
+        if (combinaNome && combinaCategoria) {
+            jogosFiltrados.push(jogo);
+        }
+    }
+
+    return jogosFiltrados;
+}
+
+function atualizarTela() {
+    const jogosExibidos = filtrarJogos(campoBusca.value, seletorCategoria.value);
+
+    renderizar(jogosExibidos);
+}
+
+campoBusca.addEventListener("input", atualizarTela);
+
+seletorCategoria.addEventListener("change", atualizarTela);
+
+document.addEventListener("keydown", function(event) {
+    if (event.key === "Escape") {
+        campoBusca.value = "";
+        atualizarTela();
+    }
+});
+
 renderizar(catalogo.itens);
