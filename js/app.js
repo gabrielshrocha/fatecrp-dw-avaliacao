@@ -141,3 +141,78 @@ const catalogo = {
         return lista;
     }
 };
+
+// [R2] Renderização dinâmica dos jogos
+const LIMITE_DESCRICAO = 60;
+
+function truncarTexto(texto, limite) {
+    if (texto.length > limite) {
+        return texto.slice(0, limite) + "…";
+    }
+    return texto;
+}
+
+function renderizar(lista) {
+
+    const container = document.getElementById("lista-jogos");
+
+    container.innerHTML = "";
+    if (lista.length === 0) {
+        const mensagem = document.createElement("p");
+
+        mensagem.textContent = "Nenhum item encontrado";
+
+        container.appendChild(mensagem);
+
+        return;
+    }
+
+    for (let i = 0; i < lista.length; i++) {
+
+        const jogo = lista[i];
+
+        const card = document.createElement("article");
+        const titulo = document.createElement("h3");
+        const categoria = document.createElement("p");
+        const nota = document.createElement("p");
+        const descricao = document.createElement("p");
+
+        card.classList.add("card-jogo");
+
+        titulo.textContent = jogo.nome;
+        categoria.textContent = "Categoria: " + jogo.categoria;
+        nota.textContent = "Nota: " + jogo.nota.toFixed(1);
+        descricao.textContent = truncarTexto(jogo.descricao, LIMITE_DESCRICAO);
+
+        switch (jogo.categoria) {
+            case "Estratégia":
+                categoria.classList.add("estrategia");
+                break;
+
+            case "Cooperativo":
+                categoria.classList.add("cooperativo");
+                break;
+
+            case "Negociação":
+                categoria.classList.add("negociacao");
+                break;
+
+            case "Investigação":
+                categoria.classList.add("investigacao");
+                break;
+
+            default:
+                categoria.classList.add("outras-categorias");
+                break;
+        }
+
+        card.appendChild(titulo);
+        card.appendChild(categoria);
+        card.appendChild(nota);
+        card.appendChild(descricao);
+
+        container.appendChild(card);
+    }
+}
+
+renderizar(catalogo.itens);
