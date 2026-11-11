@@ -252,6 +252,7 @@ seletorCategoria.addEventListener("change", atualizarTela);
 document.addEventListener("keydown", function(event) {
     if (event.key === "Escape") {
         campoBusca.value = "";
+        seletorCategoria.value = "Todas";
         atualizarTela();
     }
 });
