@@ -16,16 +16,22 @@ Criamos um array chamado `jogos`, contendo oito jogos de tabuleiro. Cada jogo fo
 
 Depois, criamos o objeto `catalogo`, que recebe o nome do nosso sistema e o array de jogos. Dentro dele, desenvolvemos métodos para realizar diferentes operações:
 
-- `adicionar()`: criamos esse método para adicionar novos jogos ao catálogo.
-- `filtroCategoria()`: utilizamos esse método para buscar jogos de acordo com a categoria escolhida.
-- `filtroNome()`: criamos uma busca pelo nome dos jogos, que também funciona com letras maiúsculas e minúsculas.
-- `filtroFavoritos()`: utilizamos esse método para mostrar somente os jogos marcados como favoritos.
-- `favoritar()`: criamos esse método para marcar ou desmarcar um jogo como favorito, utilizando seu ID.
-- `filtroNota()`: implementamos uma ordenação dos jogos da maior nota para a menor, utilizando o algoritmo Bubble Sort.
+- `adicionar()`: método responsável por adicionar novos jogos ao catálogo.
+- `filtroCategoria()`: realiza a busca de jogos de acordo com a categoria escolhida.
+- `filtroNome()`: realiza a busca pelo nome dos jogos, sem distinção entre letras maiúsculas e minúsculas.
+- `filtroFavoritos()`: retorna somente os jogos marcados como favoritos.
+- `favoritar()`: marca ou desmarca um jogo como favorito, utilizando seu ID.
+- `filtroNota()`: ordena os jogos da maior nota para a menor, utilizando o algoritmo Bubble Sort.
+
+Para desenvolver essas funcionalidades, utilizamos arrays, objetos, funções, estruturas condicionais e laços de repetição. Nas buscas, percorremos os jogos com `for`, verificamos as condições com `if` e adicionamos os resultados em novas listas utilizando `push()`.
+
+Também utilizamos `const` e `let` para declarar as variáveis e `this` para acessar as propriedades do próprio objeto `catalogo`.
+
+Todas as operações de filtragem e ordenação foram desenvolvidas manualmente, respeitando as restrições de métodos estabelecidas pelo professor.
 
 ### Questão 02 — Renderização dinâmica dos jogos
 
-Criamos a função `renderizar(lista)`, responsável por exibir os jogos do catálogo diretamente na página HTML. Ela recebe uma lista como parâmetro e percorre seus elementos para construir os cards de cada jogo.
+Criamos a função `renderizar(lista)`, responsável por exibir os jogos do catálogo diretamente na página HTML. Ela recebe uma lista como parâmetro e percorre seus elementos para construir os cards de cada jogo. 
 
 Para isso, utilizamos os seguintes recursos:
 
@@ -42,9 +48,3 @@ Também implementamos uma verificação para identificar quando a lista recebida
 Para percorrer os jogos, utilizamos um laço `for`, acessando cada elemento pelo seu índice, e organizamos a construção dos cards em etapas para facilitar a compreensão e manutenção do código.
 
 Dessa forma, conseguimos gerar o catálogo dinamicamente, sem precisar cadastrar manualmente cada card no HTML.
-
-Para desenvolver essas funcionalidades, utilizamos arrays, objetos, funções, estruturas condicionais e laços de repetição. Nas buscas, percorremos os jogos com `for`, verificamos as condições com `if` e adicionamos os resultados em novas listas utilizando `push()`.
-
-Também utilizamos `const` e `let` para declarar as variáveis e `this` para acessar as propriedades do próprio objeto `catalogo`.
-
-Todas as operações de filtragem e ordenação foram desenvolvidas manualmente, respeitando as restrições de métodos estabelecidas pelo professor.
