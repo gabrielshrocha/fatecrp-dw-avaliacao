@@ -243,6 +243,7 @@ function atualizarTela() {
     const jogosExibidos = filtrarJogos(campoBusca.value, seletorCategoria.value);
 
     renderizar(jogosExibidos);
+    atualizarPainel(jogosExibidos);
 }
 
 campoBusca.addEventListener("input", atualizarTela);
