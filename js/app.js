@@ -76,7 +76,7 @@ const catalogo = {
     },
 
     filtroCategoria: function(categoria) {
-        let lista = [];
+        const lista = [];
 
         for (let i = 0; i < this.itens.length; i++) {
             if (this.itens[i].categoria === categoria) {
@@ -88,10 +88,10 @@ const catalogo = {
     },
 
     filtroNome: function(texto) {
-        let lista = [];
+        const lista = [];
 
         for (let i = 0; i < this.itens.length; i++) {
-            let nome = this.itens[i].nome.toLowerCase();
+            const nome = this.itens[i].nome.toLowerCase();
 
             if (nome.includes(texto.toLowerCase())) {
                 lista.push(this.itens[i]);
@@ -102,7 +102,7 @@ const catalogo = {
     },
 
     filtroFavoritos: function() {
-        let favoritos = [];
+        const favoritos = [];
 
         for (let i = 0; i < this.itens.length; i++) {
             if (this.itens[i].favorito) {
@@ -117,21 +117,22 @@ const catalogo = {
         for (let i = 0; i < this.itens.length; i++) {
             if (this.itens[i].id === id) {
                 this.itens[i].favorito = !this.itens[i].favorito;
+                break;
             }
         }
     },
 
     filtroNota: function() {
-        let lista = [];
+        const lista = [];
 
         for (let i = 0; i < this.itens.length; i++) {
             lista.push(this.itens[i]);
         }
 
-        for (let i = 0; i < lista.length; i++) {
-            for (let j = 0; j < lista.length - 1; j++) {
+        for (let i = 0; i < lista.length - 1; i++) {
+            for (let j = 0; j < lista.length - 1 - i; j++) {
                 if (lista[j].nota < lista[j + 1].nota) {
-                    let aux = lista[j];
+                    const aux = lista[j];
                     lista[j] = lista[j + 1];
                     lista[j + 1] = aux;
                 }
