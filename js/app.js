@@ -243,7 +243,6 @@ function atualizarTela() {
     const jogosExibidos = filtrarJogos(campoBusca.value, seletorCategoria.value);
 
     renderizar(jogosExibidos);
-    atualizarPainel(jogosExibidos);
 }
 
 campoBusca.addEventListener("input", atualizarTela);
@@ -256,6 +255,107 @@ document.addEventListener("keydown", function(event) {
         seletorCategoria.value = "Todas";
         atualizarTela();
     }
+});
+
+// [R4] Cadastro de novos jogos com validação
+
+const formCadastro = document.getElementById("form-cadastro");
+
+const campoNome = document.getElementById("campo-nome");
+const campoCategoria = document.getElementById("campo-categoria");
+const campoNota = document.getElementById("campo-nota");
+const campoDescricao = document.getElementById("campo-descricao");
+
+const mensagemForm = document.getElementById("mensagem-form");
+
+function validar(dados) {
+
+    if (dados.nome.trim().length < 3) {
+        campoNome.classList.add("campo-erro");
+        throw new Error("O nome deve ter no mínimo 3 caracteres.");
+    }
+
+    if (dados.categoria === "") {
+        campoCategoria.classList.add("campo-erro");
+        throw new Error("Selecione uma categoria.");
+    }
+
+    if (isNaN(dados.nota) || dados.nota <= 0 || dados.nota > 10) {
+        campoNota.classList.add("campo-erro");
+        throw new Error("A nota deve ser um número maior que 0 e até 10.");
+    }
+}
+
+formCadastro.addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    campoNome.classList.remove("campo-erro");
+    campoCategoria.classList.remove("campo-erro");
+    campoNota.classList.remove("campo-erro");
+
+    mensagemForm.textContent = "";
+
+    const dados = {
+        nome: campoNome.value.trim(),
+        categoria: campoCategoria.value,
+        nota: Number(campoNota.value.replace(",", ".")),
+        descricao: campoDescricao.value.trim()
+    };
+
+    try {
+
+        validar(dados);
+
+        catalogo.adicionar({
+            id: catalogo.itens.length + 1,
+            nome: dados.nome,
+            categoria: dados.categoria,
+            descricao: dados.descricao || "Sem descrição informada.",
+            nota: dados.nota,
+            favorito: false
+        });
+
+        formCadastro.reset();
+
+        mensagemForm.className = "mensagem-sucesso";
+        mensagemForm.textContent = "Jogo cadastrado com sucesso!";
+
+        atualizarTela();
+
+    } catch (erro) {
+
+        mensagemForm.className = "mensagem-erro";
+        mensagemForm.textContent = erro.message;
+
+    }
+
+});
+
+campoNome.addEventListener("input", function() {
+
+    if (campoNome.value.trim().length >= 3) {
+        campoNome.classList.remove("campo-erro");
+    }
+
+});
+
+campoCategoria.addEventListener("change", function() {
+
+    if (campoCategoria.value !== "") {
+        campoCategoria.classList.remove("campo-erro");
+    }
+
+});
+
+campoNota.addEventListener("input", function() {
+
+    const nota = Number(campoNota.value.replace(",", "."));
+
+    if (!isNaN(nota) && nota > 0 && nota <= 10) {
+        campoNota.classList.remove("campo-erro");
+    }
+
 });
 
 renderizar(catalogo.itens);
