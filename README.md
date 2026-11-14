@@ -48,3 +48,22 @@ Também implementamos uma verificação para identificar quando a lista recebida
 Para percorrer os jogos, utilizamos um laço `for`, acessando cada elemento pelo seu índice, e organizamos a construção dos cards em etapas para facilitar a compreensão e manutenção do código.
 
 Dessa forma, conseguimos gerar o catálogo dinamicamente, sem precisar cadastrar manualmente cada card no HTML.
+
+### Questão 03 — Busca e filtro por categoria
+
+Criamos a função `filtrarJogos(texto, categoria)`, responsável por realizar a busca pelo nome dos jogos e o filtro por categoria. Ela recebe dois parâmetros: o texto digitado no campo de busca e a categoria selecionada pelo usuário. Os seguintes recursos foram utilizados:
+
+- `campoBusca` e `seletorCategoria`: constantes responsáveis por acessar os elementos HTML da busca e da seleção de categorias.
+- `filtrarJogos()`: função responsável por percorrer os jogos do catálogo e verificar quais atendem aos critérios de busca e categoria.
+- `toLowerCase()`: converte os nomes dos jogos e o texto digitado para letras minúsculas, permitindo buscas sem distinção entre maiúsculas e minúsculas.
+- `indexOf()`: verifica se o texto digitado está presente no nome do jogo. Quando o resultado é diferente de `-1`, significa que existe uma correspondência.
+- `push()`: adiciona os jogos que atendem aos critérios em uma nova lista, posteriormente retornada pela função.
+- `&&` e `||`: operadores utilizados para combinar as condições. O jogo precisa corresponder ao nome pesquisado e à categoria selecionada. Quando a opção "Todas" está selecionada, o filtro por categoria não restringe os resultados.
+
+Também criamos a função `atualizarTela()`, responsável por obter os valores atuais dos campos de busca e categoria, chamar a função `filtrarJogos()` e enviar a lista resultante para a função `renderizar()`.
+
+Para identificar as interações do usuário, utilizamos `addEventListener()` com os eventos `input` e `change`. Assim, os resultados são atualizados automaticamente enquanto o usuário digita ou altera a categoria selecionada.
+
+Por fim, implementamos um evento `keydown` para identificar quando a tecla `Escape` é pressionada. Nesse caso, o campo de busca é limpo, a categoria é restaurada para "Todas" e a tela é atualizada, exibindo novamente todos os jogos.
+
+Desse jeito, conseguimos combinar a busca por nome e o filtro por categoria, atualizando os resultados dinamicamente sem precisar recarregar a página.
