@@ -153,6 +153,10 @@ function truncarTexto(texto, limite) {
     return texto;
 }
 
+function textoBotao(favorito) { // [R5]
+    return favorito ? "Remover dos favoritos" : "Adicionar aos favoritos";
+}
+
 function renderizar(lista) {
 
     const container = document.getElementById("lista-jogos");
@@ -177,6 +181,7 @@ function renderizar(lista) {
         const categoria = document.createElement("p");
         const nota = document.createElement("p");
         const descricao = document.createElement("p");
+        const botaoFavorito = document.createElement("button"); // [R5]
 
         card.classList.add("card-jogo");
 
@@ -207,10 +212,31 @@ function renderizar(lista) {
                 break;
         }
 
+        // [R5] Configuração do botão de favoritos
+        botaoFavorito.type = "button";
+        botaoFavorito.textContent = textoBotao(jogo.favorito);
+
+        card.classList.toggle("favorito", jogo.favorito);
+
+        botaoFavorito.addEventListener("click", function() {
+
+            jogo.favorito = !jogo.favorito;
+
+            card.classList.toggle("favorito", jogo.favorito);
+
+            botaoFavorito.textContent = textoBotao(jogo.favorito);
+
+            atualizarPainel(lista);
+
+        });
+
         card.appendChild(titulo);
         card.appendChild(categoria);
         card.appendChild(nota);
         card.appendChild(descricao);
+
+        // [R5] Adicionando o botão ao card
+        card.appendChild(botaoFavorito);
 
         container.appendChild(card);
     }
