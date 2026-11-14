@@ -1,0 +1,5 @@
+/* [R4] Indicação visual de campos inválidos */
+
+.campo-erro {
+    border: 2px solid red;
+}
