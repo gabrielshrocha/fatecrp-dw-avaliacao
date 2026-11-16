@@ -1,3 +1,6 @@
+// [R7] Qualidade: js externo com defer, sem var, sem eventos inline,
+// eventos com addEventListener e funções com uma responsabilidade cada.
+
 // [R1] Cadastro dos jogos e objeto catalogo
 
 const jogos = [
@@ -130,7 +133,7 @@ function renderizar(lista) {
 
         titulo.textContent = jogo.nome;
         categoria.textContent = "Categoria: " + jogo.categoria;
-        nota.textContent = "Nota: " + jogo.nota.toFixed(1);
+        nota.textContent = "Nota: " + jogo.nota.toFixed(1).replace(".", ",");
         descricao.textContent = truncarTexto(jogo.descricao, LIMITE_DESCRICAO);
 
         switch (jogo.categoria) {
@@ -237,6 +240,7 @@ const campoNota = document.getElementById("campo-nota");
 const campoDescricao = document.getElementById("campo-descricao");
 
 const mensagemForm = document.getElementById("mensagem-form");
+let proximoId = jogos.length + 1;
 
 function validar(dados) {
 
@@ -278,7 +282,7 @@ formCadastro.addEventListener("submit", function(event) {
         validar(dados);
 
         catalogo.adicionar({
-            id: catalogo.itens.length + 1,
+            id: proximoId++,
             nome: dados.nome,
             categoria: dados.categoria,
             descricao: dados.descricao || "Sem descrição informada.",
@@ -370,7 +374,7 @@ function atualizarPainel(lista) {
 
         mediaNotas.textContent = media.toFixed(2).replace(".", ",");
 
-        maiorNota.textContent = maiorJogo.nome + " (" + maiorJogo.nota.toFixed(1) + ")";
+        maiorNota.textContent = maiorJogo.nome + " (" + maiorJogo.nota.toFixed(1).replace(".", ",") + ")";
     }
 }
 
