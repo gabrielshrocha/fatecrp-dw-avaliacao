@@ -75,44 +75,7 @@ const catalogo = {
         this.itens.push(jogo);
     },
 
-    filtroCategoria: function(categoria) {
-        const lista = [];
-
-        for (let i = 0; i < this.itens.length; i++) {
-            if (this.itens[i].categoria === categoria) {
-                lista.push(this.itens[i]);
-            }
-        }
-
-        return lista;
-    },
-
-    filtroNome: function(texto) {
-        const lista = [];
-
-        for (let i = 0; i < this.itens.length; i++) {
-            const nome = this.itens[i].nome.toLowerCase();
-
-            if (nome.includes(texto.toLowerCase())) {
-                lista.push(this.itens[i]);
-            }
-        }
-
-        return lista;
-    },
-
-    filtroFavoritos: function() {
-        const favoritos = [];
-
-        for (let i = 0; i < this.itens.length; i++) {
-            if (this.itens[i].favorito) {
-                favoritos.push(this.itens[i]);
-            }
-        }
-
-        return favoritos;
-    },
-
+    // [R5] Alterna o favorito do jogo com o operador !
     favoritar: function(id) {
         for (let i = 0; i < this.itens.length; i++) {
             if (this.itens[i].id === id) {
@@ -120,26 +83,6 @@ const catalogo = {
                 break;
             }
         }
-    },
-
-    filtroNota: function() {
-        const lista = [];
-
-        for (let i = 0; i < this.itens.length; i++) {
-            lista.push(this.itens[i]);
-        }
-
-        for (let i = 0; i < lista.length - 1; i++) {
-            for (let j = 0; j < lista.length - 1 - i; j++) {
-                if (lista[j].nota < lista[j + 1].nota) {
-                    const aux = lista[j];
-                    lista[j] = lista[j + 1];
-                    lista[j + 1] = aux;
-                }
-            }
-        }
-
-        return lista;
     }
 };
 
@@ -220,7 +163,7 @@ function renderizar(lista) {
 
         botaoFavorito.addEventListener("click", function() {
 
-            jogo.favorito = !jogo.favorito;
+            catalogo.favoritar(jogo.id);
 
             card.classList.toggle("favorito", jogo.favorito);
 
