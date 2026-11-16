@@ -269,6 +269,7 @@ function atualizarTela() {
     const jogosExibidos = filtrarJogos(campoBusca.value, seletorCategoria.value);
 
     renderizar(jogosExibidos);
+    atualizarPainel(jogosExibidos);
 }
 
 campoBusca.addEventListener("input", atualizarTela);
@@ -384,4 +385,50 @@ campoNota.addEventListener("input", function() {
 
 });
 
-renderizar(catalogo.itens);
+// [R6] Painel de estatísticas
+
+const totalJogos = document.getElementById("total-jogos");
+const totalFavoritos = document.getElementById("total-favoritos");
+const mediaNotas = document.getElementById("media-notas");
+const maiorNota = document.getElementById("maior-nota");
+
+function atualizarPainel(lista) {
+
+    let quantidadeFavoritos = 0;
+    let somaNotas = 0;
+    let maiorJogo = null;
+
+    for (let i = 0; i < lista.length; i++) {
+
+        const jogo = lista[i];
+
+        if (jogo.favorito) {
+            quantidadeFavoritos++;
+        }
+
+        somaNotas += jogo.nota;
+
+        if (maiorJogo === null || jogo.nota > maiorJogo.nota) {
+            maiorJogo = jogo;
+        }
+    }
+
+    totalJogos.textContent = lista.length;
+    totalFavoritos.textContent = quantidadeFavoritos;
+
+    if (lista.length === 0) {
+
+        mediaNotas.textContent = "—";
+        maiorNota.textContent = "—";
+
+    } else {
+
+        const media = somaNotas / lista.length;
+
+        mediaNotas.textContent = media.toFixed(2).replace(".", ",");
+
+        maiorNota.textContent = maiorJogo.nome + " (" + maiorJogo.nota.toFixed(1) + ")";
+    }
+}
+
+atualizarTela();
