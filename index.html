@@ -60,12 +60,10 @@
 
                 <label for="campo-nota">Nota:</label>
                 <input
-                    type="number"
+                    type="text"
                     id="campo-nota"
+                    inputmode="decimal"
                     placeholder="Ex.: 8.5"
-                    min="0"
-                    max="10"
-                    step="0.1"
                 >
 
                 <label for="campo-descricao">Descrição:</label>
@@ -93,7 +91,10 @@
             <p>Jogo com maior nota: <span id="maior-nota">—</span></p>
         </section>
         
-        <section id="lista-jogos"></section>
+        <section id="secao-jogos">
+            <h2>Jogos</h2>
+            <div id="lista-jogos"></div>
+        </section>
     </main>
 
     <footer>
