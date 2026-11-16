@@ -3,3 +3,9 @@
 .campo-erro {
     border: 2px solid red;
 }
+
+/* [R5] Destaque visual dos jogos favoritos */
+
+.card-jogo.favorito {
+    border: 2px solid green;
+}
