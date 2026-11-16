@@ -86,6 +86,15 @@ const catalogo = {
                 break;
             }
         }
+    },
+    
+    remover: function(id) {
+        for (let i = 0; i < this.itens.length; i++) {
+            if (this.itens[i].id === id) {
+                this.itens.splice(i, 1);
+                break;
+            }
+        }
     }
 };
 
@@ -175,7 +184,23 @@ function renderizar(lista) {
             atualizarPainel(lista);
 
         });
+        
+        // [EXTRA] Botão de remover
+        const botaoRemover = document.createElement("button");
 
+        botaoRemover.type = "button";
+        botaoRemover.textContent = "Remover";
+        botaoRemover.classList.add("botao-remover");
+
+        botaoRemover.addEventListener("click", function() {
+            const confirmou = confirm("Deseja remover " + jogo.nome + " do catálogo?");
+
+            if (confirmou) {
+                catalogo.remover(jogo.id);
+                atualizarTela();
+            }
+        });
+        
         card.appendChild(titulo);
         card.appendChild(categoria);
         card.appendChild(nota);
@@ -183,6 +208,7 @@ function renderizar(lista) {
 
         // [R5] Adicionando o botão ao card
         card.appendChild(botaoFavorito);
+        card.appendChild(botaoRemover);
 
         container.appendChild(card);
     }
