@@ -1,11 +1,251 @@
-/* [R4] Indicação visual de campos inválidos */
+/* 1. Variáveis */
 
-.campo-erro {
-    border: 2px solid red;
+:root {
+    /* Cores do tema claro */
+    --cor-fundo: #f5f1e8;
+    --cor-cartao: #ffffff;
+    --cor-painel: #efe8da;
+    --cor-borda: #d9cfbd;
+    --cor-texto: #2b2b2b;
+    --cor-texto-suave: #6b6457;
+    --cor-primaria: #2f5d50;
+    --cor-primaria-hover: #24493f;
+    --cor-perigo: #b03a2e;
+    --cor-sucesso: #1e7a46;
+    --cor-favorito: #d4a017;
+    --cor-favorito-fundo: #fdf6e3;
+
+    /* Cores das categorias [R2] */
+    --cor-estrategia: #2b6cb0;
+    --cor-cooperativo: #2f855a;
+    --cor-negociacao: #c05621;
+    --cor-investigacao: #6b46c1;
+    --cor-outras: #718096;
+
+    /* Espaçamentos */
+    --espaco-pequeno: 0.5rem;
+    --espaco-medio: 1rem;
+    --espaco-grande: 1.5rem;
+
+    /* Bordas e efeitos */
+    --raio: 8px;
+    --raio-pilula: 999px;
+    --sombra: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --transicao: 0.2s ease;
 }
 
-/* [R5] Destaque visual dos jogos favoritos */
+* {
+    box-sizing: border-box;
+}
 
-.card-jogo.favorito {
-    border: 2px solid green;
+
+/* 2. Estilos gerais */
+
+body {
+    margin: 0;
+    min-height: 100vh;
+
+    background-color: var(--cor-fundo);
+    color: var(--cor-texto);
+    font-family: Arial, sans-serif;
+    line-height: 1.5;
+
+    transition:
+        background-color var(--transicao),
+        color var(--transicao);
+}
+
+h2 {
+    margin: 0 0 var(--espaco-medio);
+    font-size: 1.4rem;
+}
+
+h3 {
+    margin: 0;
+    font-size: 1.15rem;
+}
+
+
+/* 3. Cabeçalho e rodapé */
+
+header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--espaco-pequeno);
+
+    padding: var(--espaco-grande) var(--espaco-medio);
+    background-color: var(--cor-primaria);
+
+    color: #ffffff;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: clamp(1.6rem, 5vw, 2.4rem);
+}
+
+footer {
+    padding: var(--espaco-medio);
+
+    color: var(--cor-texto-suave);
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+
+/* 4. Layout principal (mobile primeiro) */
+
+main {
+    display: grid;
+    grid-template-areas:
+        "busca"
+        "cadastro"
+        "painel"
+        "jogos";
+    gap: var(--espaco-grande);
+
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: var(--espaco-medio);
+}
+
+#secao-busca         { grid-area: busca; }
+#secao-cadastro      { grid-area: cadastro; }
+#painel-estatisticas { grid-area: painel; }
+#secao-jogos         { grid-area: jogos; }
+
+main > section {
+    padding: var(--espaco-grande);
+
+    background-color: var(--cor-cartao);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio);
+}
+
+/* A seção de jogos não vira cartão: os cards já são */
+
+#secao-jogos {
+    padding: 0;
+    background-color: transparent;
+    border: none;
+}
+
+
+/* 5. Formulários e botões */
+
+#secao-busca,
+form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-pequeno);
+}
+
+label {
+    font-weight: bold;
+    font-size: 0.95rem;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+
+    background-color: var(--cor-cartao);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio);
+
+    color: var(--cor-texto);
+    font: inherit;
+}
+
+textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 2px solid var(--cor-primaria);
+    outline-offset: 1px;
+}
+
+button {
+    padding: 0.6rem 1rem;
+
+    background-color: var(--cor-primaria);
+    border: none;
+    border-radius: var(--raio);
+
+    color: #ffffff;
+    font: inherit;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition:
+        background-color var(--transicao),
+        transform var(--transicao);
+}
+
+button:hover {
+    background-color: var(--cor-primaria-hover);
+    transform: translateY(-2px);
+}
+
+button:focus-visible {
+    outline: 2px solid var(--cor-texto);
+    outline-offset: 2px;
+}
+
+form button {
+    align-self: flex-start;
+}
+
+/* Espaço reservado para a mensagem não "empurrar" o layout */
+
+#mensagem-form {
+    min-height: 1.5em;
+    margin: 0;
+}
+
+
+/* 6. Responsividade */
+
+@media (min-width: 768px) {
+    header {
+        flex-direction: row;
+        justify-content: space-between;
+        padding-inline: var(--espaco-grande);
+        text-align: left;
+    }
+
+    main {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto 1fr auto;
+        grid-template-areas:
+            "busca   cadastro"
+            "painel  cadastro"
+            "jogos   jogos";
+        padding: var(--espaco-grande);
+    }
+}
+
+
+/* 11. Preferência por movimento reduzido */
+
+@media (prefers-reduced-motion: reduce) {
+    body,
+    button,
+    .card-jogo {
+        transition: none;
+    }
+
+    button:hover,
+    .card-jogo:hover {
+        transform: none;
+    }
 }
