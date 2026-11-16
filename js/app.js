@@ -238,7 +238,8 @@ function filtrarJogos(texto, categoria) {
 }
 
 function atualizarTela() {
-    const jogosExibidos = filtrarJogos(campoBusca.value, seletorCategoria.value);
+    const jogosFiltrados = filtrarJogos(campoBusca.value, seletorCategoria.value);
+    const jogosExibidos = ordenarLista(jogosFiltrados, seletorOrdem.value);
 
     renderizar(jogosExibidos);
     atualizarPainel(jogosExibidos);
@@ -255,6 +256,44 @@ document.addEventListener("keydown", function(event) {
         atualizarTela();
     }
 });
+
+// [EXTRA] Ordenação com laços (sem sort)
+
+const seletorOrdem = document.getElementById("ordenar");
+
+function deveTrocar(a, b, criterio) {
+    if (criterio === "nota") {
+        return a.nota < b.nota;
+    }
+
+    if (criterio === "nome") {
+        return a.nome.localeCompare(b.nome) > 0;
+    }
+
+    return false;
+}
+
+function ordenarLista(lista, criterio) {
+    const ordenada = [];
+
+    for (let i = 0; i < lista.length; i++) {
+        ordenada.push(lista[i]);
+    }
+
+    for (let i = 0; i < ordenada.length - 1; i++) {
+        for (let j = 0; j < ordenada.length - 1 - i; j++) {
+            if (deveTrocar(ordenada[j], ordenada[j + 1], criterio)) {
+                const aux = ordenada[j];
+                ordenada[j] = ordenada[j + 1];
+                ordenada[j + 1] = aux;
+            }
+        }
+    }
+
+    return ordenada;
+}
+
+seletorOrdem.addEventListener("change", atualizarTela);
 
 // [R4] Cadastro de novos jogos com validação
 
