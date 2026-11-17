@@ -1,137 +1,147 @@
 # Central Jogos de Tabuleiro
 
-**Disciplina:** Desenvolvimento Web — Fatec Ribeirão Preto
+Catálogo interativo de jogos de tabuleiro, feito para a avaliação prática de JavaScript da disciplina de Desenvolvimento Web — Fatec Ribeirão Preto.
 
-**Integrantes:**
-- Nome: Gabriel Stopa Honorato Rocha | RA: 2840482613012
-- Nome: João Victor Tavares | RA: 2840482613034
+**Repositório:** https://github.com/gabrielshrocha/fatecrp-dw-avaliacao
 
-**Tema:** Catálogo de Jogos de Tabuleiro
+Para usar, basta abrir o `index.html` no navegador. Não precisa instalar nada.
 
----
+```
+index.html
+css/style.css
+js/app.js
+imagens/          logotipo, imagens dos jogos e imagem padrão
+README.md
+```
 
-### Questão 01 — Cadastro dos jogos e objeto catálogo
+## 1. Dupla e tema
 
-Criamos um array chamado `jogos`, contendo oito jogos de tabuleiro. Cada jogo foi cadastrado como um objeto, com informações como id, nome, categoria, descrição, nota e se é ou não favorito.
+| Nome | RA |
+|---|---|
+| Gabriel Stopa Honorato Rocha | 2840482613012 |
+| João Victor Tavares | 2840482613034 |
 
-Depois, criamos o objeto `catalogo`, que recebe o nome do nosso sistema e o array de jogos. Dentro dele, desenvolvemos métodos para realizar diferentes operações:
+**Tema:** catálogo de jogos de tabuleiro.
 
-- `adicionar()`: método responsável por adicionar novos jogos ao catálogo.
-- `filtroCategoria()`: realiza a busca de jogos de acordo com a categoria escolhida.
-- `filtroNome()`: realiza a busca pelo nome dos jogos, sem distinção entre letras maiúsculas e minúsculas.
-- `filtroFavoritos()`: retorna somente os jogos marcados como favoritos.
-- `favoritar()`: marca ou desmarca um jogo como favorito, utilizando seu ID.
-- `filtroNota()`: ordena os jogos da maior nota para a menor, utilizando o algoritmo Bubble Sort.
+## 2. Onde cada questão foi atendida
 
-Para desenvolver essas funcionalidades, utilizamos arrays, objetos, funções, estruturas condicionais e laços de repetição. Nas buscas, percorremos os jogos com `for`, verificamos as condições com `if` e adicionamos os resultados em novas listas utilizando `push()`.
+Cada trecho está marcado no `app.js` com o comentário da questão (`// [R1]` a `// [R7]`).
 
-Também utilizamos `const` e `let` para declarar as variáveis e `this` para acessar as propriedades do próprio objeto `catalogo`.
+### Questão 01 — Dados `[R1]`
 
-Todas as operações de filtragem e ordenação foram desenvolvidas manualmente, respeitando as restrições de métodos estabelecidas pelo professor.
+O array `jogos` (declarado com `const`) tem 8 jogos em 4 categorias: Estratégia, Cooperativo, Negociação e Investigação. Cada jogo tem `id`, `nome`, `categoria`, `descricao`, `nota` (o valor numérico), `favorito` (o booleano) e `imagem`.
 
-### Questão 02 — Renderização dinâmica dos jogos
+O objeto `catalogo` guarda o nome do catálogo, o array de jogos e três métodos que usam `this`:
 
-Criamos a função `renderizar(lista)`, responsável por exibir os jogos do catálogo diretamente na página HTML. Ela recebe uma lista como parâmetro e percorre seus elementos para construir os cards de cada jogo. 
+- `adicionar(jogo)` — usado no cadastro (Questão 04);
+- `favoritar(id)` — inverte o `favorito` do jogo com `!`; usado no botão do card (Questão 05);
+- `remover(id)` — usado no desafio extra de remover.
 
-Para isso, utilizamos os seguintes recursos:
+### Questão 02 — Renderização dinâmica `[R2]`
 
-- `LIMITE_DESCRICAO`: constante que define o limite de 60 caracteres das descrições. Caso seja necessário aumentar ou diminuir esse limite futuramente, basta alterar seu valor, sem modificar a função responsável pelo corte do texto.
-- `truncarTexto()`: função auxiliar que verifica o tamanho da descrição e corta o texto quando ultrapassa o limite, adicionando reticências ao final.
-- `renderizar()`: função responsável por criar os elementos HTML de cada card e preencher suas informações.
-- `switch`: estrutura que identifica a categoria de cada jogo e atribui uma classe CSS correspondente.
-- `createElement()`: método responsável por criar os elementos HTML dinamicamente.
-- `textContent`: propriedade utilizada para inserir os textos dos jogos nos elementos criados.
-- `appendChild()`: método que organiza os elementos dentro dos cards e adiciona os cards ao container principal.
+A função `renderizar(lista)` limpa o `#lista-jogos` com `innerHTML = ""` e monta cada card dentro de um `for`, usando `createElement`, `textContent` e `appendChild`. O HTML só tem o contêiner vazio.
 
-Também implementamos uma verificação para identificar quando a lista recebida está vazia. Nesse caso, a página exibe a mensagem "Nenhum item encontrado".
+- A nota é exibida com `toFixed(1)` e vírgula.
+- A descrição passa pela função `truncarTexto`, que corta em `LIMITE_DESCRICAO` (60 caracteres) com `slice` e coloca "…" no final.
+- Um `switch` com 4 casos e `default` define a classe CSS da categoria; cada categoria tem uma cor.
+- Cada card mostra a imagem do jogo; jogos cadastrados pelo formulário usam a `IMAGEM_PADRAO`.
+- Se a lista estiver vazia, aparece "Nenhum item encontrado".
 
-Para percorrer os jogos, utilizamos um laço `for`, acessando cada elemento pelo seu índice, e organizamos a construção dos cards em etapas para facilitar a compreensão e manutenção do código.
+### Questão 03 — Busca e filtro `[R3]`
 
-Dessa forma, conseguimos gerar o catálogo dinamicamente, sem precisar cadastrar manualmente cada card no HTML.
+A função `filtrarJogos(texto, categoria)` percorre `catalogo.itens` com `for`. Para cada jogo, compara o nome com `toLowerCase` + `indexOf`, verifica a categoria e só faz `push` no novo array quando as duas condições são verdadeiras (`&&`). Com "Todas" selecionado, qualquer categoria passa.
 
-### Questão 03 — Busca e filtro por categoria
+A função `atualizarTela()` filtra, ordena, renderiza e atualiza o painel. Ela é chamada no evento `input` do campo de busca e no `change` dos selects. A tecla Esc (`keydown` com `event.key === "Escape"`) limpa a busca, volta o filtro para "Todas" e mostra todos os jogos.
 
-Criamos a função `filtrarJogos(texto, categoria)`, responsável por realizar a busca pelo nome dos jogos e o filtro por categoria. Ela recebe dois parâmetros: o texto digitado no campo de busca e a categoria selecionada pelo usuário. Os seguintes recursos foram utilizados:
+### Questão 04 — Cadastro com validação `[R4]`
 
-- `campoBusca` e `seletorCategoria`: constantes responsáveis por acessar os elementos HTML da busca e da seleção de categorias.
-- `filtrarJogos()`: função responsável por percorrer os jogos do catálogo e verificar quais atendem aos critérios de busca e categoria.
-- `toLowerCase()`: converte os nomes dos jogos e o texto digitado para letras minúsculas, permitindo buscas sem distinção entre maiúsculas e minúsculas.
-- `indexOf()`: verifica se o texto digitado está presente no nome do jogo. Quando o resultado é diferente de `-1`, significa que existe uma correspondência.
-- `push()`: adiciona os jogos que atendem aos critérios em uma nova lista, posteriormente retornada pela função.
-- `&&` e `||`: operadores utilizados para combinar as condições. O jogo precisa corresponder ao nome pesquisado e à categoria selecionada. Quando a opção "Todas" está selecionada, o filtro por categoria não restringe os resultados.
+O formulário tem `novalidate`, e o `submit` usa `event.preventDefault()`. A função `validar(dados)` lança `throw new Error(...)` quando:
 
-Também criamos a função `atualizarTela()`, responsável por obter os valores atuais dos campos de busca e categoria, chamar a função `filtrarJogos()` e enviar a lista resultante para a função `renderizar()`.
+- o nome tem menos de 3 caracteres (`trim` + `length`);
+- nenhuma categoria foi selecionada;
+- a nota não é um número (`Number` + `isNaN`) ou está fora do intervalo maior que 0 e até 10.
 
-Para identificar as interações do usuário, utilizamos `addEventListener()` com os eventos `input` e `change`. Assim, os resultados são atualizados automaticamente enquanto o usuário digita ou altera a categoria selecionada.
+O submit chama a validação dentro de um `try...catch` e mostra a mensagem do erro no `#mensagem-form`, sem `alert`. O campo inválido recebe a classe `campo-erro` com `classList.add` e perde com `classList.remove` assim que o valor fica válido.
 
-Por fim, implementamos um evento `keydown` para identificar quando a tecla `Escape` é pressionada. Nesse caso, o campo de busca é limpo, a categoria é restaurada para "Todas" e a tela é atualizada, exibindo novamente todos os jogos.
+Se tudo estiver certo, o jogo entra pelo `catalogo.adicionar`, o formulário é limpo com `reset()`, aparece a mensagem de sucesso e `atualizarTela()` atualiza a lista e o painel. A nota aceita vírgula ("8,5"), convertida com `replace` antes do `Number`.
 
-Desse jeito, conseguimos combinar a busca por nome e o filtro por categoria, atualizando os resultados dinamicamente sem precisar recarregar a página.
+### Questão 05 — Interação nos cards `[R5]`
 
-### Questão 04 — Cadastro de novos jogos com validação
+Cada card ganha um botão de favorito criado no `renderizar`, e o `addEventListener` é registrado na hora da criação. No clique:
 
-Implementamos um formulário para permitir que o usuário cadastre novos jogos diretamente na página. Para isso, criamos a função `validar(dados)`, responsável por verificar se as informações preenchidas atendem aos critérios estabelecidos.
+1. `catalogo.favoritar(jogo.id)` inverte o booleano com `!`;
+2. `classList.toggle("favorito", jogo.favorito)` liga ou desliga o destaque do card;
+3. `textoBotao` troca o texto entre "Adicionar aos favoritos" e "Remover dos favoritos";
+4. `atualizarPainel(lista)` atualiza as estatísticas.
 
-Os seguintes recursos foram utilizados:
+O `jogo` do card e o item dentro de `catalogo.itens` são o mesmo objeto, por isso a mudança feita pelo método já aparece no card.
 
-- `formCadastro`: constante responsável por acessar o formulário de cadastro no HTML.
-- `campoNome`, `campoCategoria`, `campoNota` e `campoDescricao`: constantes utilizadas para acessar os campos do formulário.
-- `validar()`: função responsável por verificar se o nome possui pelo menos três caracteres, se uma categoria foi selecionada e se a nota está dentro do intervalo permitido.
-- `trim()`: remove os espaços em branco do início e do final do texto, evitando que espaços sejam considerados como parte válida do nome.
-- `Number()`: converte o valor informado no campo de nota para o tipo numérico.
-- `isNaN()`: verifica se o valor convertido é um número válido.
-- `throw new Error()`: interrompe a validação quando alguma informação não atende aos critérios e gera uma mensagem de erro.
-- `try/catch`: estrutura utilizada para executar a validação e o cadastro, tratando possíveis erros sem interromper o funcionamento da aplicação.
-- `classList.add()` e `classList.remove()`: adicionam ou removem a classe CSS responsável por destacar visualmente os campos inválidos.
+### Questão 06 — Painel de estatísticas `[R6]`
 
-Também utilizamos o evento `submit` para identificar o envio do formulário e `preventDefault()` para impedir o comportamento padrão de recarregar a página.
+A função `atualizarPainel(lista)` percorre a lista exibida uma única vez e, no mesmo laço, conta os favoritos, soma as notas e guarda o jogo de maior nota comparando um por um (sem `sort` nem `Math.max`). A média é exibida com `toFixed(2)` e `replace(".", ",")`. Com a lista vazia, média e maior nota mostram "—", então nunca aparece `NaN`.
 
-Quando os dados são válidos, utilizamos o método `adicionar()` do objeto `catalogo` para inserir um novo jogo no array. Caso a descrição não seja informada, o sistema utiliza o texto "Sem descrição informada.".
+O painel é atualizado pela `atualizarTela()` (busca, filtro, ordenação, cadastro e remoção) e pelo clique no favorito.
 
-Após o cadastro, o formulário é limpo, uma mensagem de sucesso é exibida e a função `atualizarTela()` é chamada para atualizar os jogos exibidos e as estatísticas.
+### Questão 07 — Qualidade e organização `[R7]`
 
-Além disso, utilizamos os eventos `input` e `change` para remover a indicação visual de erro dos campos conforme o usuário corrige as informações.
+- JavaScript em `js/app.js`, carregado com `defer`; CSS em `css/style.css`.
+- Nenhum evento inline no HTML: tudo com `addEventListener`.
+- Só `let` e `const`.
+- Funções com uma tarefa cada e nome que diz o que fazem (`truncarTexto`, `textoBotao`, `validar`, `atualizarPainel`…).
+- Sem `map`, `filter`, `reduce`, `sort`, `document.write` ou bibliotecas.
+- Console do navegador sem erros.
 
-### Questão 05 — Interação de favoritos nos cards
+**Pré-requisitos:** HTML semântico (`header`, `main`, `section`, `footer`, `label for`) e CSS externo com Grid (`grid-template-areas` no layout principal e nos cards) e Flexbox (formulário, cards e cabeçalho), feito no estilo mobile-first com `@media (min-width: 768px)`.
 
-Implementamos uma funcionalidade que permite ao usuário marcar e desmarcar jogos como favoritos diretamente nos cards. Para isso, aproveitamos a função `renderizar()`, desenvolvida na Questão 02, adicionando um botão de favoritos durante a criação de cada card.
+**Visual:** os títulos usam a fonte Poppins, carregada pelo Google Fonts (só a fonte, sem bibliotecas de código). As cores, espaçamentos e fontes ficam em variáveis no `:root`.
 
-Os seguintes recursos foram utilizados:
+### Desafios extras
 
-- `textoBotao()`: função auxiliar que retorna o texto adequado para o botão, de acordo com o estado atual do favorito.
-- `createElement()`: utilizado para criar dinamicamente o botão de favoritos.
-- `addEventListener()`: utilizado com o evento `click` para identificar quando o usuário interage com o botão.
-- `!`: operador lógico utilizado para inverter o valor booleano da propriedade `favorito`, alternando entre `true` e `false`.
-- `classList.toggle()`: adiciona ou remove a classe CSS `favorito` no card, de acordo com o estado atual do jogo.
-- `textContent`: atualiza o texto do botão para indicar se o jogo pode ser adicionado ou removido dos favoritos.
+| Desafio | Onde |
+|---|---|
+| Remover | Botão em cada card; pede `confirm` e chama `catalogo.remover(id)`, que usa `splice` |
+| Ordenação sem `sort` | `ordenarLista` e `deveTrocar`: bubble sort com dois `for`, por maior nota ou por nome (`localeCompare`) |
+| Modo escuro | Botão no cabeçalho com `classList.toggle("modo-escuro")` no `body`; o CSS só troca os valores das variáveis |
+| Contador de caracteres | `atualizarContador`, no evento `input` da descrição, usando `length` |
 
-Quando o usuário clica no botão, o sistema altera a propriedade `favorito` do jogo, atualiza o destaque visual do card e modifica o texto do botão.
+## 3. Divisão de tarefas
 
-Por fim, chamamos `atualizarPainel(lista)` para atualizar as estatísticas dos jogos exibidos, refletindo imediatamente a alteração na quantidade de favoritos.
+Fomos revezando as questões: cada um implementava uma parte (HTML + JavaScript) e documentava no README, e as correções foram feitas por quem encontrava o problema. O histórico de commits mostra quem fez cada etapa: https://github.com/gabrielshrocha/fatecrp-dw-avaliacao/commits/main
 
-Dessa maneira, conseguimos implementar a interação diretamente nos cards, aproveitando a estrutura de renderização da Questão 02 e mantendo as informações dos jogos atualizadas sem precisar recarregar a página.
+| Parte | João | Gabriel |
+|---|---|---|
+| Estrutura | Estrutura inicial do projeto | `header`, `main` e `footer` no HTML |
+| Q01 — Dados | Array `jogos` e objeto `catalogo` | — |
+| Q02 — Renderização | — | `renderizar` e truncamento das descrições |
+| Q03 — Busca e filtro | Campos no HTML e `filtrarJogos` | Ajuste da tecla Esc |
+| Q04 — Cadastro | Indicação visual dos campos inválidos (CSS) | Formulário no HTML e validação |
+| Q05 — Favoritos | Botão de favorito e destaque visual (CSS) | — |
+| Q06 — Painel | — | Seção no HTML, `atualizarPainel` e chamada dentro do `atualizarTela` |
+| Q07 e revisão | Remoção dos métodos sem uso, campo de nota, id sequencial e formato com vírgula | — |
+| CSS | Variáveis do modo escuro e estilo do botão de tema | Variáveis, layout em grid e responsividade; painel, cards, categorias e estados |
+| Visual | Logotipo, fonte dos títulos e imagens dos jogos | — |
+| Extras | Remover, ordenação e CSS do modo escuro | Modo escuro (HTML e JS) e contador de caracteres |
+| README | Questões 1, 3, 4, 5 e 6; versão final | Questão 2 |
 
-### Questão 06 — Painel de estatísticas
+## 4. Dificuldades e como resolvemos
 
-Criamos um painel de estatísticas para apresentar informações sobre os jogos atualmente exibidos no catálogo. Para isso, desenvolvemos a função `atualizarPainel(lista)`, que recebe a lista de jogos como parâmetro e calcula os resultados percorrendo seus elementos.
+**1. Métodos do catálogo que ficaram sem uso.** Na Questão 01 criamos vários métodos (`filtroCategoria`, `filtroNome`, `filtroFavoritos`, `filtroNota`) sem saber o que as próximas questões iam pedir. Depois vimos que a Questão 03 exigia busca e categoria funcionando juntas, o que os filtros separados não faziam, e o painel só precisava contar os favoritos, não listá-los. Os métodos acabaram sem nenhuma chamada no código. Removemos os que não eram usados e passamos a usar o `favoritar` no botão da Questão 05. O laço de ordenação do antigo `filtroNota` foi reaproveitado no desafio de ordenação.
 
-Os seguintes recursos foram utilizados:
+**2. A nota que virava zero.** O campo de nota era `type="number"`. Quando o conteúdo é inválido (letras, ou "8,5" dependendo do navegador), esse tipo de campo entrega um texto vazio, e `Number("")` vira `0`. Por isso o `isNaN` nunca disparava, e quem digitava letras via a mensagem "maior que 0", que não fazia sentido. Trocamos para `type="text"` com `inputmode="decimal"` (que mantém o teclado numérico no celular). Agora quem valida é o JavaScript, como a Questão 04 pede.
 
-- `totalJogos`, `totalFavoritos`, `mediaNotas` e `maiorNota`: constantes responsáveis por acessar os elementos HTML onde as estatísticas são apresentadas.
-- `atualizarPainel()`: função responsável por calcular e atualizar as estatísticas com base na lista recebida.
-- `quantidadeFavoritos`: variável utilizada para contar quantos jogos estão marcados como favoritos.
-- `somaNotas`: variável utilizada para acumular as notas dos jogos e calcular a média.
-- `maiorJogo`: variável utilizada para armazenar o jogo com a maior nota encontrada durante a verificação.
-- `for`: laço de repetição utilizado para percorrer os jogos e realizar os cálculos.
-- `if`: estrutura condicional utilizada para verificar se um jogo é favorito e identificar aquele que possui a maior nota.
-- `toFixed(2)`: utilizado para apresentar a média com duas casas decimais.
-- `replace()`: utilizado para substituir o ponto pela vírgula na apresentação da média.
-- `textContent`: utilizado para atualizar os valores apresentados no painel.
+**3. Id repetido depois de remover um jogo.** O id do cadastro era `catalogo.itens.length + 1`. Com o botão de remover, isso quebrou: removendo um dos 8 jogos, o próximo cadastro recebia o id 8, que já existia. E aí o favoritar ou o remover podiam atingir o jogo errado. Trocamos por um contador (`proximoId`) que só aumenta.
 
-Durante a execução, percorremos a lista uma única vez, contando os favoritos, somando as notas e identificando o jogo com a maior avaliação.
+Outros detalhes que apareceram nos testes: o `form.reset()` não dispara o evento `input`, então o contador de caracteres ficava com o número antigo e precisou ser atualizado na mão depois do reset. E, ao adicionar a propriedade `imagem` nos jogos, faltou uma vírgula depois de `favorito`, e o erro de sintaxe fez o navegador não executar nada do `app.js`; foi aí que aprendemos a olhar o console (F12) primeiro.
 
-Também implementamos uma condição para tratar listas vazias. Nesse caso, as quantidades são exibidas como zero, enquanto a média e o jogo com maior nota recebem um traço.
+## 5. Uso de IA
 
-A função `atualizarPainel()` é chamada pela função `atualizarTela()`, mantendo as estatísticas sincronizadas com os resultados da busca e dos filtros. Também é chamada após o cadastro de um novo jogo e quando o usuário altera o estado de favorito de algum card.
+Usamos o ChatGPT e o Claude como apoio durante o projeto. Tivemos pouca aula prática de JavaScript antes da avaliação, então tentamos montar as questões com base nos slides do professor, e a IA entrou quando travávamos: para explicar o que cada recurso faz, encontrar erros e mostrar como implementar o que o enunciado pedia.
 
-Assim, o painel apresenta informações atualizadas de acordo com os jogos que estão sendo exibidos, sem necessidade de recarregar a página.
+Na prática, usamos para:
+
+- explicar os recursos do material (`this`, `try...catch`, `classList`, eventos) e como aplicá-los no projeto;
+- encontrar e corrigir erros, e sugerir código quando não sabíamos como implementar uma parte — esse código foi adaptado ao projeto e revisado até conseguirmos explicar cada trecho;
+- revisar o projeto comparando com o enunciado — as dificuldades acima vieram dessa revisão;
+- sugerir a base do CSS, que adaptamos ao mesmo padrão (variáveis, seções numeradas, `transition` na regra base) que o João já usava no portfólio pessoal.
+
+O método foi o mesmo que o João usou para aprender HTML e CSS com os slides da disciplina: a IA como tutor para praticar do zero, montando um projeto próprio e testes separados para cada assunto. Aqui, por causa do prazo de uma semana, fizemos isso em escala menor, questão por questão e com os slides de JavaScript do lado. O repositório no GitHub registra esse processo: cada commit mostra o que mudou e quem fez.
