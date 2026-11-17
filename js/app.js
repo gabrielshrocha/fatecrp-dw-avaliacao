@@ -443,4 +443,17 @@ function atualizarPainel(lista) {
     }
 }
 
+// [EXTRA] Modo escuro
+const botaoTema = document.getElementById("botao-tema");
+
+botaoTema.addEventListener("click", function() {
+    document.body.classList.toggle("modo-escuro");
+
+    if (document.body.classList.contains("modo-escuro")) {
+        botaoTema.textContent = "Modo claro";
+    } else {
+        botaoTema.textContent = "Modo escuro";
+    }
+});
+
 atualizarTela();
