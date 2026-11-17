@@ -10,7 +10,8 @@ const jogos = [
         categoria: "Negociação",
         descricao: "Um jogo de compra e venda de propriedades, onde o objetivo é construir impérios e levar os rivais à falência.",
         nota: 7.7,
-        favorito: true
+        favorito: true,
+        imagem: "imagens/jogos/monopoly.webp"
     },
     {
         id: 2,
@@ -18,7 +19,8 @@ const jogos = [
         categoria: "Estratégia",
         descricao: "War (baseado no jogo americano Risk) é um jogo de guerra e estratégia disputado com um mapa do mundo dividido em 6 regiões. Cada jogador recebe uma carta com um determinado objetivo e quem completar primeiro o seu é o vencedor.",
         nota: 8.3,
-        favorito: true
+        favorito: true,
+        imagem: "imagens/jogos/war.webp"
     },
     {
         id: 3,
@@ -26,7 +28,8 @@ const jogos = [
         categoria: "Estratégia",
         descricao: "Catan é um jogo de estratégia e negociação, no qual os jogadores colonizam uma ilha fictícia e cumprem objetivos para adquirir pontos. O primeiro que chegar a 10 pontos vence.",
         nota: 9.2,
-        favorito: true
+        favorito: true,
+        imagem: "imagens/jogos/catan.webp"
     },
     {
         id: 4,
@@ -34,7 +37,8 @@ const jogos = [
         categoria: "Investigação",
         descricao: "Os jogadores tem como objetivo descobrir quem assassinou a vítima, em qual local e qual a arma do crime. Usando dados para mover seus peões, os jogadores entram em cômodos para falarem seus palpites e desvendarem o mistério.",
         nota: 7.0,
-        favorito: false
+        favorito: false,
+        imagem: "imagens/jogos/detetive.webp"
     },
     {
         id: 5,
@@ -42,7 +46,8 @@ const jogos = [
         categoria: "Cooperativo",
         descricao: "Os jogadores formam uma equipe de especialistas (médico, cientista, pesquisador) que precisa viajar pelo mundo contendo surtos de doenças e descobrindo as curas antes que a humanidade seja extinta.",
         nota: 8.5,
-        favorito: false
+        favorito: false,
+        imagem: "imagens/jogos/pandemic.webp"
     },
     {
         id: 6,
@@ -50,7 +55,8 @@ const jogos = [
         categoria: "Cooperativo",
         descricao: "Um jogo cooperativo cheio de miniaturas onde o grupo controla sobreviventes em um apocalipse zumbi, precisando cumprir missões e encontrar armas sem serem encurralados pelas hordas de monstros.",
         nota: 9.0,
-        favorito: false
+        favorito: false,
+        imagem: "imagens/jogos/zombicide.webp"
     },
     {
         id: 7,
@@ -58,7 +64,8 @@ const jogos = [
         categoria: "Estratégia",
         descricao: "Os jogadores controlam corporações competindo e cooperando para tornar Marte habitável, gerenciando oxigênio, temperatura, oceanos e recursos.",
         nota: 6.8,
-        favorito: false
+        favorito: false,
+        imagem: "imagens/jogos/terraforming_mars.webp"
     },
     {
         id: 8,
@@ -66,7 +73,8 @@ const jogos = [
         categoria: "Cooperativo",
         descricao: "Um jogo cooperativo assimétrico onde um jogador faz o papel de um fantasma amnésico que tenta guiar um grupo de médiuns até o assassino, usando apenas cartas com ilustrações abstratas e enigmáticas.",
         nota: 7.2,
-        favorito: false
+        favorito: false,
+        imagem: "imagens/jogos/mysterium.webp"
     }
 ];
 
@@ -100,6 +108,7 @@ const catalogo = {
 
 // [R2] Renderização dinâmica dos jogos
 const LIMITE_DESCRICAO = 60;
+const IMAGEM_PADRAO = "imagens/sem-imagem.webp";
 
 function truncarTexto(texto, limite) {
     if (texto.length > limite) {
@@ -137,8 +146,14 @@ function renderizar(lista) {
         const nota = document.createElement("p");
         const descricao = document.createElement("p");
         const botaoFavorito = document.createElement("button"); // [R5]
+        const imagem = document.createElement("img");
 
         card.classList.add("card-jogo");
+        
+        imagem.src = jogo.imagem || IMAGEM_PADRAO;
+        imagem.alt = "Imagem do jogo " + jogo.nome;
+        imagem.loading = "lazy";
+        imagem.classList.add("imagem-jogo");
 
         titulo.textContent = jogo.nome;
         categoria.textContent = "Categoria: " + jogo.categoria;
@@ -200,7 +215,8 @@ function renderizar(lista) {
                 atualizarTela();
             }
         });
-        
+
+        card.appendChild(imagem);
         card.appendChild(titulo);
         card.appendChild(categoria);
         card.appendChild(nota);
