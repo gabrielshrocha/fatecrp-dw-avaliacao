@@ -307,6 +307,18 @@ const campoDescricao = document.getElementById("campo-descricao");
 const mensagemForm = document.getElementById("mensagem-form");
 let proximoId = jogos.length + 1;
 
+// [EXTRA] Contador de caracteres da descrição
+
+const contadorDescricao = document.getElementById("contador-descricao");
+const LIMITE_CARACTERES = 200;
+
+function atualizarContador() {
+    contadorDescricao.textContent = campoDescricao.value.length + "/" + LIMITE_CARACTERES + " caracteres";
+}
+
+campoDescricao.addEventListener("input", atualizarContador);
+
+
 function validar(dados) {
 
     if (dados.nome.trim().length < 3) {
@@ -359,7 +371,8 @@ formCadastro.addEventListener("submit", function(event) {
 
         mensagemForm.className = "mensagem-sucesso";
         mensagemForm.textContent = "Jogo cadastrado com sucesso!";
-
+        
+        atualizarContador();
         atualizarTela();
 
     } catch (erro) {
@@ -444,6 +457,7 @@ function atualizarPainel(lista) {
 }
 
 // [EXTRA] Modo escuro
+
 const botaoTema = document.getElementById("botao-tema");
 
 botaoTema.addEventListener("click", function() {
