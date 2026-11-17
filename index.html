@@ -5,14 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Central Jogos de Tabuleiro</title>
-
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/style.css">
     <script src="js/app.js" defer></script>
 </head>
 <body>
 
     <header>
-        <h1>Central Jogos de Tabuleiro</h1>
+        <div class="logo">
+            <img src="imagens/logo.png" alt="">
+            <h1>Central Jogos de Tabuleiro</h1>
+        </div>
+        
         <button type="button" id="botao-tema">Modo escuro</button>
     </header>
 
@@ -72,7 +80,7 @@
                     type="text"
                     id="campo-nota"
                     inputmode="decimal"
-                    placeholder="Ex.: 8.5"
+                    placeholder="Ex.: 8,5"
                 >
 
                 <label for="campo-descricao">Descrição:</label>
