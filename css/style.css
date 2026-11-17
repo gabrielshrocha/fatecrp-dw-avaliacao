@@ -385,3 +385,24 @@ form button {
         transform: none;
     }
 }
+
+/* [EXTRA] Modo escuro */
+
+body.modo-escuro {
+    --cor-fundo: #15181e;
+    --cor-cartao: #1f232b;
+    --cor-painel: #2a2f39;
+    --cor-borda: #3a404c;
+    --cor-texto: #eceff4;
+    --cor-texto-suave: #a9b0bd;
+    --cor-favorito-fundo: #2f2a1a;
+}
+
+#botao-tema {
+    background-color: transparent;
+    border: 1px solid #ffffff;
+}
+
+#botao-tema:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+}
