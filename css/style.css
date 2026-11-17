@@ -212,8 +212,144 @@ form button {
     margin: 0;
 }
 
+/* 6. Painel de estatísticas */
 
-/* 6. Responsividade */
+#painel-estatisticas {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+    align-content: start;
+    gap: var(--espaco-medio);
+}
+
+#painel-estatisticas h2 {
+    grid-column: 1 / -1;
+    margin: 0;
+}
+
+#painel-estatisticas p {
+    margin: 0;
+    padding: var(--espaco-medio);
+
+    background-color: var(--cor-painel);
+    border-radius: var(--raio);
+
+    color: var(--cor-texto-suave);
+}
+
+/* O número de cada estatística aparece grande, abaixo do texto */
+
+#painel-estatisticas span {
+    display: block;
+    margin-top: 0.25rem;
+
+    color: var(--cor-texto);
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+
+
+/* 7. Cards dos jogos */
+
+#lista-jogos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+    gap: var(--espaco-medio);
+}
+
+.card-jogo {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-pequeno);
+
+    padding: var(--espaco-medio);
+
+    background-color: var(--cor-cartao);
+    border: 2px solid var(--cor-borda);
+    border-radius: var(--raio);
+
+    transition:
+        transform var(--transicao),
+        box-shadow var(--transicao),
+        border-color var(--transicao);
+}
+
+.card-jogo:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--sombra);
+}
+
+.card-jogo p {
+    margin: 0;
+}
+
+/* Empurra os botões para o fim do card, alinhando cards de alturas diferentes */
+
+.card-jogo button:first-of-type {
+    margin-top: auto;
+}
+
+.botao-remover {
+    background-color: transparent;
+    border: 1px solid var(--cor-perigo);
+    color: var(--cor-perigo);
+}
+
+.botao-remover:hover {
+    background-color: var(--cor-perigo);
+    color: #ffffff;
+}
+
+
+/* 8. [R2] Classes aplicadas pelo switch de categoria */
+
+.estrategia,
+.cooperativo,
+.negociacao,
+.investigacao,
+.outras-categorias {
+    align-self: flex-start;
+    padding: 0.2rem 0.7rem;
+
+    border-radius: var(--raio-pilula);
+
+    color: #ffffff;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.estrategia        { background-color: var(--cor-estrategia); }
+.cooperativo       { background-color: var(--cor-cooperativo); }
+.negociacao        { background-color: var(--cor-negociacao); }
+.investigacao      { background-color: var(--cor-investigacao); }
+.outras-categorias { background-color: var(--cor-outras); }
+
+
+/* 9. Estados: erro, mensagens e favorito */
+
+/* [R4] Indicação visual de campos inválidos */
+
+.campo-erro {
+    border: 2px solid var(--cor-perigo);
+}
+
+.mensagem-sucesso {
+    color: var(--cor-sucesso);
+    font-weight: bold;
+}
+
+.mensagem-erro {
+    color: var(--cor-perigo);
+    font-weight: bold;
+}
+
+/* [R5] Destaque visual dos jogos favoritos */
+
+.card-jogo.favorito {
+    border-color: var(--cor-favorito);
+    background-color: var(--cor-favorito-fundo);
+}
+
+/* 10. Responsividade */
 
 @media (min-width: 768px) {
     header {
