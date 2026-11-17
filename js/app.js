@@ -108,7 +108,7 @@ const catalogo = {
 
 // [R2] Renderização dinâmica dos jogos
 const LIMITE_DESCRICAO = 60;
-const IMAGEM_PADRAO = "imagens/sem-imagem.webp";
+const IMAGEM_PADRAO = "imagens/sem-imagem.png";
 
 function truncarTexto(texto, limite) {
     if (texto.length > limite) {
